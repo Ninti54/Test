@@ -32,7 +32,7 @@ class PlayerScrapingNBA {
     }
 
     @BeforeEach
-    private void neki(){
+    private void driverinicilization(){
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.get(links.get(i++));
@@ -43,7 +43,7 @@ class PlayerScrapingNBA {
     void Test(){
 
         String text = "";
-        int sestevek = 0, i = 0, pm3 = 0;
+        int sum = 0, i = 0, pm3 = 0;
         double average = 0.0;
 
         for (i = 1; i <= 5; i++) {
@@ -54,32 +54,28 @@ class PlayerScrapingNBA {
                 pm3 = 0;
             }
 
-            sestevek += pm3;
+            sum += pm3;
 
-            System.out.print(pm3 + " ");
+            //System.out.print(pm3 + " ");
         }
-        System.out.printf("\n");
-        System.out.println("Sestevek skupaj: "+sestevek);
+        //System.out.printf("\n");
+        //System.out.println("Sestevek skupaj: "+sum);
 
-        average = (double)sestevek / (i-1);
+        average = (double)sum / (i-1);
 
         System.out.println("Average (3PM): "+average);
 
-        String ime = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[2]/section/div[1]/section[1]/div[2]/div/div[2]/div[1]")).getText();
+        String name = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[2]/section/div[1]/section[1]/div[2]/div/div[2]/div[1]")).getText();
 
-        System.out.println(ime);
+        System.out.println(name);
 
-        if(average < 1){
-            System.out.println("Failed");
-        }else{
-            System.out.println("Passed");
-        }
-        System.out.println();
+        System.out.println(average < 1 ? "Failed" : "Passed");
 
         driver.quit();
         assertTrue("Previous (" + average + ") should be greater than 1", average >= 1);
     }
 
+    // Returning NBA players links from sportsdata API
     private static ArrayList<String> getPlayersLinks() throws IOException {
         ArrayList<String> idLinks = new ArrayList();
         URL url = new URL("https://api.sportsdata.io/v3/nba/scores/json/Players/DAL?key=58957574730c4ee1b809da2f53525997");
